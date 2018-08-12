@@ -17,8 +17,8 @@
  * </ul>`
  * <li> `browser` - generate files needed for browser (browserify)
  * <ul>
- * <li> `browser:uncompressed` - build uncomprssed browser bundle (`bitcore-*.js`)
- * <li> `browser:compressed` - build compressed browser bundle (`bitcore-*.min.js`)
+ * <li> `browser:uncompressed` - build uncomprssed browser bundle (`bcore-*.js`)
+ * <li> `browser:compressed` - build compressed browser bundle (`bcore-*.min.js`)
  * <li> `browser:maketests` - build `tests.js`, needed for testing without karma
  * </ul>`
  * <li> `lint` - run `jshint`
@@ -54,12 +54,12 @@ function startGulp(name, opts) {
 
   opts = opts || {};
   var browser = !opts.skipBrowser;
-  var fullname = name ? 'bitcore-' + name : 'bitcore';
+  var fullname = name ? 'bcore-' + name : 'bcore';
   var files = ['lib/**/*.js'];
   var tests = ['test/**/*.js'];
   var alljs = files.concat(tests);
 
-  var buildPath = './node_modules/bitcore-build/';
+  var buildPath = './node_modules/bcore-build/';
   var buildModulesPath = buildPath + 'node_modules/';
   var buildBinPath = buildPath + 'node_modules/.bin/';
 
@@ -129,9 +129,9 @@ function startGulp(name, opts) {
     var browserifyCommand;
 
     if (name !== 'lib') {
-      browserifyCommand = browserifyPath + ' --require ./index.js:' + fullname + ' --external bitcore-lib -o ' + fullname + '.js';
+      browserifyCommand = browserifyPath + ' --require ./index.js:' + fullname + ' --external bcore-lib -o ' + fullname + '.js';
     } else {
-      browserifyCommand = browserifyPath + ' --require ./index.js:bitcore-lib -o bitcore-lib.js';
+      browserifyCommand = browserifyPath + ' --require ./index.js:bcore-lib -o bcore-lib.js';
     }
 
     gulp.task('browser:uncompressed', shell.task([
@@ -320,7 +320,7 @@ function startGulp(name, opts) {
   });
 
   gulp.task('release:push', function(cb) {
-    git.push('bitpay', 'master', {
+    git.push('bcore', 'master', {
       args: ''
     }, cb);
   });
@@ -329,7 +329,7 @@ function startGulp(name, opts) {
     var pjson = require('../../package.json');
     var name = 'v' + pjson.version;
     git.tag(name, 'Release ' + name, function() {
-      git.push('bitpay', name, cb);
+      git.push('bcore', name, cb);
     });
   });
 
@@ -354,7 +354,7 @@ function startGulp(name, opts) {
       browser ? 'browser' : 'noop',
       // Commit 
       'release:build-commit',
-      // Run git push bitpay $VERSION
+      // Run git push bcore $VERSION
       'release:push-tag',
       // Run npm publish
       'release:publish',
